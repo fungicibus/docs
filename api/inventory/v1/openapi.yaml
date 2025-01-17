@@ -40,7 +40,7 @@ components:
     ResourceType:
       type: string
       enum:
-        - items
+        - commodities
       description: "Available JSON:API resource types"
 
     GetCommoditiesResponse:
