@@ -74,6 +74,7 @@ components:
         - description
         - category
         - quantity
+        - packageForm
         - price
       properties:
         name:
@@ -89,6 +90,9 @@ components:
           type: integer
           description: Count of packages
           example: 10
+        packageForm:
+          type: string
+          example: "5 dried pieces"
         price:
           type: number
           format: float
