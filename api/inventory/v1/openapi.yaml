@@ -74,24 +74,21 @@ components:
         - description
         - category
         - quantity
-        - unit
         - price
       properties:
         name:
           type: string
         sku:
           type: string
-          description: Stock keeping unit is the unit of measure in which the stocks of a material are managed.
+          description: Stock keeping unit is the unit of measure in which the stocks of a material are managed
         description:
           type: string
         category:
           $ref: "#/components/schemas/CategoryType"
         quantity:
-          type: number
-          format: float
+          type: integer
+          description: Count of packages
           example: 10
-        unit:
-          $ref: "#/components/schemas/UnitType"
         price:
           type: number
           format: float
@@ -99,9 +96,6 @@ components:
     CategoryType:
       type: string
       enum: [culinary, medicinal, exotic]
-    UnitType:
-      type: string
-      enum: [gram, kilogram, count]
 
 paths:
   /commodities:
