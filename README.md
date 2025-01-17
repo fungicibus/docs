@@ -1,1 +1,1 @@
-# docs
+# Fungicibus project documentation
