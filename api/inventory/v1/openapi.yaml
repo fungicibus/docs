@@ -9,7 +9,7 @@ servers:
 
 components:
   schemas:
-    Error:
+    ErrorResponse:
       type: object
       required:
         - id
@@ -119,10 +119,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/ErrorResponse"
         "500":
           description: Server error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/ErrorResponse"
