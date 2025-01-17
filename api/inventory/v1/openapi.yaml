@@ -1,0 +1,130 @@
+openapi: 3.0.0
+info:
+  title: Fungicibus Inventory Service API
+  description: API for managing products supplies
+  version: 1.0.0
+
+servers:
+  - url: /api/v1
+
+components:
+  schemas:
+    Error:
+      type: object
+      required:
+        - id
+        - status
+        - detail
+        - meta
+      properties:
+        id:
+          type: string
+          description: Id of a request
+        status:
+          type: string
+          description: The HTTP status code applicable to this problem, expressed as a string value
+          example: "400"
+        detail:
+          type: string
+          description: A human-readable explanation specific to this occurrence of the problem
+        meta:
+          type: object
+          required:
+            - timestamp
+          properties:
+            timestamp:
+              type: string
+              description: Timestamp of the occurrence of the problem in RFC3339 format
+              example: "2006-01-02T15:04:05Z07:00"
+
+    ResourceType:
+      type: string
+      enum:
+        - items
+      description: "Available JSON:API resource types"
+
+    GetCommoditiesResponse:
+      type: object
+      required:
+        - data
+      properties:
+        data:
+          type: array
+          items:
+            type: object
+            required:
+              - id
+              - type
+              - attributes
+            properties:
+              id:
+                type: string
+                description: Identifier of a commodity
+              type:
+                $ref: "#/components/schemas/ResourceType"
+              attributes:
+                type: array
+                items:
+                  $ref: "#/components/schemas/CommoditiesItem"
+    CommoditiesItem:
+      type: object
+      required:
+        - name
+        - sku
+        - description
+        - category
+        - quantity
+        - unit
+        - price
+      properties:
+        name:
+          type: string
+        sku:
+          type: string
+          description: Stock keeping unit is the unit of measure in which the stocks of a material are managed.
+        description:
+          type: string
+        category:
+          $ref: "#/components/schemas/CategoryType"
+        quantity:
+          type: number
+          format: float
+          example: 10
+        unit:
+          $ref: "#/components/schemas/UnitType"
+        price:
+          type: number
+          format: float
+          example: 12.99
+    CategoryType:
+      type: string
+      enum: [culinary, medicinal, exotic]
+    UnitType:
+      type: string
+      enum: [gram, kilogram, count]
+
+paths:
+  /commodities:
+    get:
+      summary: Get list of all commodities
+      responses:
+        "200":
+          description: List of all commodities
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetCommoditiesResponse"
+        "204":
+          description: No commodities in inventory
+        "400":
+          description: Request error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
