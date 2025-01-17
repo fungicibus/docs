@@ -65,9 +65,7 @@ components:
         type:
           $ref: "#/components/schemas/ResourceType"
         attributes:
-          type: array
-          items:
-            $ref: "#/components/schemas/CommoditiesItem"
+          $ref: "#/components/schemas/CommoditiesItem"
     CommoditiesItem:
       type: object
       required:
