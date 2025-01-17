@@ -51,21 +51,23 @@ components:
         data:
           type: array
           items:
-            type: object
-            required:
-              - id
-              - type
-              - attributes
-            properties:
-              id:
-                type: string
-                description: Identifier of a commodity
-              type:
-                $ref: "#/components/schemas/ResourceType"
-              attributes:
-                type: array
-                items:
-                  $ref: "#/components/schemas/CommoditiesItem"
+            $ref: "#/components/schemas/GetCommoditiesResponseDataItem"
+    GetCommoditiesResponseDataItem:
+      type: object
+      required:
+        - id
+        - type
+        - attributes
+      properties:
+        id:
+          type: string
+          description: Identifier of a commodity
+        type:
+          $ref: "#/components/schemas/ResourceType"
+        attributes:
+          type: array
+          items:
+            $ref: "#/components/schemas/CommoditiesItem"
     CommoditiesItem:
       type: object
       required:
