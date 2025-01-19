@@ -69,6 +69,7 @@ components:
     CommoditiesItem:
       type: object
       required:
+        - id
         - name
         - sku
         - description
@@ -77,6 +78,8 @@ components:
         - packageForm
         - price
       properties:
+        id:
+          type: string
         name:
           type: string
         sku:
@@ -101,10 +104,17 @@ components:
       type: string
       enum: [culinary, medicinal, exotic]
 
+    AddCommodityQuantityRequest:
+      type: object
+      properties:
+        amount:
+          type: integer
+
 paths:
   /commodities:
     get:
       summary: Get list of all commodities
+      operationId: getCommodities
       parameters:
         - name: filter[commodity.name]
           in: query
@@ -119,6 +129,38 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/GetCommoditiesResponse"
+        "400":
+          description: Request error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /commodities/{commodityID}/quantity/add:
+    post:
+      summary: Add to commodity quantity
+      operationId: addCommodityQuantity
+      description: Adds (or subtracts) a specified amount to the existing quantity of a commodity
+      parameters:
+        - name: commodityID
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Identifier of the commodity to update
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AddCommodityQuantityRequest"
+      responses:
         "400":
           description: Request error
           content:
