@@ -105,6 +105,13 @@ paths:
   /commodities:
     get:
       summary: Get list of all commodities
+      parameters:
+        - name: filter[commodity.name]
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Filter commodities by name (partial match)
       responses:
         "200":
           description: List of all commodities
@@ -112,8 +119,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/GetCommoditiesResponse"
-        "204":
-          description: No commodities in inventory
         "400":
           description: Request error
           content:
