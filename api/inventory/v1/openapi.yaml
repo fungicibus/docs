@@ -28,14 +28,14 @@ components:
           type: string
           description: A human-readable explanation specific to this occurrence of the problem
         meta:
-          type: object
-          required:
-            - timestamp
-          properties:
-            timestamp:
-              type: string
-              description: Timestamp of the occurrence of the problem in RFC3339 format
-              example: "2006-01-02T15:04:05Z07:00"
+          $ref: "#/components/schemas/ErrorMeta"
+    ErrorMeta:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          description: Timestamp of the occurrence of the problem in RFC3339 format
+          example: "2006-01-02T15:04:05Z07:00"
 
     ResourceType:
       type: string
