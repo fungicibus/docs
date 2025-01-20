@@ -106,9 +106,33 @@ components:
 
     AddCommodityQuantityRequest:
       type: object
+      required:
+        - data
+      properties:
+        data:
+          $ref: "#/components/schemas/AddCommodityQuantityRequestData"
+    AddCommodityQuantityRequestData:
+      type: object
+      required:
+        - type
+        - attributes
+      properties:
+        type:
+          $ref: "#/components/schemas/AddCommodityQuantityRequestDataType"
+        attributes:
+          $ref: "#/components/schemas/AddCommodityQuantityRequestDataAttributes"
+    AddCommodityQuantityRequestDataType:
+      type: string
+      enum: [incrementer]
+    AddCommodityQuantityRequestDataAttributes:
+      type: object
+      required:
+        - amount
       properties:
         amount:
           type: integer
+          description: Count of new packages
+          example: 10
 
 paths:
   /commodities:
