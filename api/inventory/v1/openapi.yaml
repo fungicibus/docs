@@ -9,6 +9,9 @@ servers:
 
 components:
   schemas:
+    # Common types
+    
+    # Error
     ErrorResponse:
       type: object
       required:
@@ -36,23 +39,9 @@ components:
           type: string
           description: Timestamp of the occurrence of the problem in RFC3339 format
           example: "2006-01-02T15:04:05Z07:00"
-
-    ResourceType:
-      type: string
-      enum:
-        - commodities
-      description: "Available JSON:API resource types"
-
-    GetCommoditiesResponse:
-      type: object
-      required:
-        - data
-      properties:
-        data:
-          type: array
-          items:
-            $ref: "#/components/schemas/GetCommoditiesResponseDataItem"
-    GetCommoditiesResponseDataItem:
+          
+    # Commodities
+    CommoditiesItem:
       type: object
       required:
         - id
@@ -63,13 +52,17 @@ components:
           type: string
           description: Identifier of a commodity
         type:
-          $ref: "#/components/schemas/ResourceType"
+          $ref: "#/components/schemas/CommoditiesType"
         attributes:
-          $ref: "#/components/schemas/CommoditiesItem"
-    CommoditiesItem:
+          $ref: "#/components/schemas/CommoditiesAttributes"
+    CommoditiesType:
+      type: string
+      enum:
+        - commodities
+      description: "Available JSON:API resource types"
+    CommoditiesAttributes:
       type: object
       required:
-        - id
         - name
         - sku
         - description
@@ -78,8 +71,6 @@ components:
         - packageForm
         - price
       properties:
-        id:
-          type: string
         name:
           type: string
         sku:
@@ -104,6 +95,19 @@ components:
       type: string
       enum: [culinary, medicinal, exotic]
 
+
+    # get /commodities types  
+    GetCommoditiesResponse:
+      type: object
+      required:
+        - data
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/CommoditiesItem"
+
+    # post /commodities/{commodityID}/quantity/add types
     AddCommodityQuantityRequest:
       type: object
       required:
@@ -118,10 +122,10 @@ components:
         - attributes
       properties:
         type:
-          $ref: "#/components/schemas/AddCommodityQuantityRequestDataType"
+          $ref: "#/components/schemas/IncrementerType"
         attributes:
           $ref: "#/components/schemas/AddCommodityQuantityRequestDataAttributes"
-    AddCommodityQuantityRequestDataType:
+    IncrementerType:
       type: string
       enum: [incrementer]
     AddCommodityQuantityRequestDataAttributes:
@@ -133,12 +137,20 @@ components:
           type: integer
           description: Count of new packages
           example: 10
+    
+    AddCommodityQuantityResponse:
+      type: object
+      required:
+        - data
+      properties:
+        data:
+          $ref: "#/components/schemas/CommoditiesItem"
 
 paths:
   /commodities:
     get:
       summary: Get list of all commodities
-      operationId: getCommodities
+      operationId: GetCommodities
       parameters:
         - name: filter[commodity.name]
           in: query
@@ -169,7 +181,7 @@ paths:
   /commodities/{commodityID}/quantity/add:
     post:
       summary: Add to commodity quantity
-      operationId: addCommodityQuantity
+      operationId: AddCommodityQuantity
       description: Adds (or subtracts) a specified amount to the existing quantity of a commodity
       parameters:
         - name: commodityID
@@ -185,6 +197,12 @@ paths:
             schema:
               $ref: "#/components/schemas/AddCommodityQuantityRequest"
       responses:
+        "200":
+          description: Add was successful
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AddCommodityQuantityResponse"
         "400":
           description: Request error
           content:
