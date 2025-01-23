@@ -9,7 +9,7 @@ servers:
 paths:
   /commodities:
     get:
-      tags: 
+      tags:
         - commodities
       summary: Get list of all commodities
       operationId: GetCommodities
@@ -42,7 +42,7 @@ paths:
 
   /transactions:
     post:
-      tags: 
+      tags:
         - transactions
       summary: Create transaction
       operationId: CreateTransaction
@@ -71,7 +71,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
-                
+
 components:
   schemas:
     # Commodities
@@ -135,10 +135,10 @@ components:
     # Transactions
     CreateTransactionRequest:
       allOf:
-       - $ref: "#/components/schemas/TransactionAttributes"
+        - $ref: "#/components/schemas/TransactionAttributes"
     CreateTransactionResponse:
       allOf:
-       - $ref: "#/components/schemas/TransactionAttributes"
+        - $ref: "#/components/schemas/TransactionAttributes"
       required:
         - id
       properties:
@@ -152,6 +152,7 @@ components:
         - commodityId
         - amount
         - type
+        - createdAt
       properties:
         commodityId:
           type: string
@@ -162,6 +163,10 @@ components:
           example: 5
         type:
           $ref: "#/components/schemas/TransactionType"
+        createdAt:
+          type: string
+          description: Timestamp of the occurrence of the transaction in RFC3339 format
+          example: 2025-01-02T15:04:05Z07:00
         note:
           type: string
           description: Optional note about the transaction
@@ -172,7 +177,7 @@ components:
         - sale
         - supply
       example: "supply"
-        
+
     # Error
     ErrorResponse:
       type: object
