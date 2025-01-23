@@ -137,15 +137,15 @@ components:
       allOf:
         - $ref: "#/components/schemas/TransactionAttributes"
     CreateTransactionResponse:
-      type: object
-      required:
-        - id
-      properties:
-        id:
-          type: string
-          example: "08d2e30b-8e64-4414-9fee-ad93c80a5264"
       allOf:
         - $ref: "#/components/schemas/TransactionAttributes"
+        - type: object
+          required:
+            - id
+          properties:
+            id:
+              type: string
+              example: "08d2e30b-8e64-4414-9fee-ad93c80a5264"
 
     TransactionAttributes:
       type: object
