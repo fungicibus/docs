@@ -52,7 +52,7 @@ components:
             $ref: "#/components/schemas/CommoditiesItem"
     CommoditiesItem:
       type: object
-      required: 
+      required:
         - id
         - name
         - sku
@@ -100,6 +100,8 @@ components:
     # Error
     ErrorResponse:
       type: object
+      required:
+        - errors
       properties:
         errors:
           type: array
