@@ -39,6 +39,36 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
+    post:
+      tags:
+        - commodities
+      summary: Create commodity
+      operationId: CreateCommodity
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateCommodityRequest"
+      responses:
+        "200":
+          description: List of all commodities
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CommoditiesItem"
+        "400":
+          description: Request error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
 
   /commdities/{commodityID}:
     parameters:
@@ -73,7 +103,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
-              
+
   /transactions:
     post:
       tags:
@@ -109,6 +139,13 @@ paths:
 components:
   schemas:
     # Commodities
+    CategoryType:
+      type: string
+      enum:
+        - culinary
+        - medicinal
+        - exotic
+      example: exotic
     GetCommoditiesResponse:
       type: object
       required:
@@ -157,14 +194,36 @@ components:
           type: number
           format: float
           example: 1.99
-
-    CategoryType:
-      type: string
-      enum:
-        - culinary
-        - medicinal
-        - exotic
-      example: exotic
+    CreateCommodityRequest:
+      type: object
+      required:
+        - name
+        - description
+        - category
+        - quantity
+        - package
+        - price
+      properties:
+        name:
+          type: string
+          example: Fly Agaric
+        description:
+          type: string
+          example: Amanita muscaria. The edible caps
+        category:
+          $ref: "#/components/schemas/CategoryType"
+        quantity:
+          type: integer
+          description: Count of packages
+          example: 10
+        package:
+          type: string
+          description: Type of a package
+          example: 1 dried piece
+        price:
+          type: number
+          format: float
+          example: 1.99
 
     # Transactions
     CreateTransactionRequest:
