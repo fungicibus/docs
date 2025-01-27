@@ -314,17 +314,17 @@ components:
           example: "Restock from supplier ABC"
     CreateTransactionRequest:
       type: object
-      required: 
+      required:
         - data
       properties:
-        data:   
+        data:
           $ref: "#/components/schemas/CreateTransactionItem"
     CreateTransactionResponse:
       type: object
-      required: 
+      required:
         - data
       properties:
-        data:   
+        data:
           $ref: "#/components/schemas/TransactionItem"
     # Error
     ErrorResponse:
@@ -356,8 +356,19 @@ components:
           type: string
           description: A human-readable explanation specific to this occurrence of the problem
           example: Bad commodity name
+        source:
+          $ref: "#/components/schemas/ErrorSource"
         meta:
           $ref: "#/components/schemas/ErrorMeta"
+    ErrorSource:
+      type: object
+      required:
+        - type
+      properties:
+        pointer:
+          type: string
+          description: a JSON Pointer [RFC6901] to the value in the request document that caused the error
+          example: /data/quantity
     ErrorMeta:
       type: object
       properties:
