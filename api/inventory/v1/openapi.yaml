@@ -261,6 +261,7 @@ components:
         - amount
         - type
         - createdAt
+        - savedAt
       properties:
         id:
           type: string
