@@ -51,8 +51,8 @@ paths:
             schema:
               $ref: "#/components/schemas/CreateCommodityRequest"
       responses:
-        "200":
-          description: List of all commodities
+        "201":
+          description: Created commodity
           content:
             application/json:
               schema:
@@ -70,7 +70,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
 
-  /commdities/{commodityID}:
+  /commodities/{commodityID}:
     parameters:
       - name: commodityID
         in: path
@@ -86,11 +86,11 @@ paths:
       operationId: GetCommodity
       responses:
         "200":
-          description: List of all commodities
+          description: Commodity
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CommoditiesItem"
+                $ref: "#/components/schemas/GetCommodityResponse"
         "400":
           description: Request error
           content:
@@ -154,8 +154,8 @@ components:
         data:
           type: array
           items:
-            $ref: "#/components/schemas/CommoditiesItem"
-    CommoditiesItem:
+            $ref: "#/components/schemas/CommodityItem"
+    CommodityItem:
       type: object
       required:
         - id
@@ -194,7 +194,21 @@ components:
           type: number
           format: float
           example: 1.99
+    GetCommodityResponse:
+      type: object
+      required:
+        - data
+      properties:
+        data:
+          $ref: "#/components/schemas/CommodityItem"
     CreateCommodityRequest:
+      type: object
+      required:
+        - data
+      properties:
+        data:
+          $ref: "#/components/schemas/CreateCommodityItem"
+    CreateCommodityItem:
       type: object
       required:
         - name
@@ -230,7 +244,7 @@ components:
         - data
       properties:
         data:
-          $ref: "#/components/schemas/CommoditiesItem"
+          $ref: "#/components/schemas/CommodityItem"
 
     # Transactions
     TransactionType:
@@ -268,6 +282,10 @@ components:
           type: string
           description: Optional note about the transaction
           example: "Restock from supplier ABC"
+        savedAt:
+          type: string
+          description: Timestamp of saving the transaction to storage in RFC3339 format
+          example: 2025-01-02T15:04:05+07:00
     CreateTransactionItem:
       type: object
       required:
