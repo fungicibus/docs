@@ -56,7 +56,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CommoditiesItem"
+                $ref: "#/components/schemas/CreateCommodityResponse"
         "400":
           description: Request error
           content:
@@ -224,23 +224,51 @@ components:
           type: number
           format: float
           example: 1.99
+    CreateCommodityResponse:
+      type: object
+      required:
+        - data
+      properties:
+        data:
+          $ref: "#/components/schemas/CommoditiesItem"
 
     # Transactions
-    CreateTransactionRequest:
-      allOf:
-        - $ref: "#/components/schemas/TransactionAttributes"
-    CreateTransactionResponse:
-      allOf:
-        - $ref: "#/components/schemas/TransactionAttributes"
-        - type: object
-          required:
-            - id
-          properties:
-            id:
-              type: string
-              example: "08d2e30b-8e64-4414-9fee-ad93c80a5264"
-
-    TransactionAttributes:
+    TransactionType:
+      type: string
+      enum:
+        - sale
+        - supply
+      example: "supply"
+    TransactionItem:
+      type: object
+      required:
+        - id
+        - commodityID
+        - amount
+        - type
+        - createdAt
+      properties:
+        id:
+          type: string
+          example: "08d2e30b-8e64-4414-9fee-ad93c80a5264"
+        commodityID:
+          type: string
+          example: "08d2e30b-8e64-4414-9fee-ad93c80a5264"
+        amount:
+          type: integer
+          description: Number representing quantity change, positive or negative
+          example: 5
+        type:
+          $ref: "#/components/schemas/TransactionType"
+        createdAt:
+          type: string
+          description: Timestamp of the occurrence of the transaction in RFC3339 format
+          example: 2025-01-02T15:04:05+07:00
+        note:
+          type: string
+          description: Optional note about the transaction
+          example: "Restock from supplier ABC"
+    CreateTransactionItem:
       type: object
       required:
         - commodityID
@@ -265,13 +293,20 @@ components:
           type: string
           description: Optional note about the transaction
           example: "Restock from supplier ABC"
-    TransactionType:
-      type: string
-      enum:
-        - sale
-        - supply
-      example: "supply"
-
+    CreateTransactionRequest:
+      type: object
+      required: 
+        - data
+      properties:
+        data:   
+          $ref: "#/components/schemas/CreateTransactionItem"
+    CreateTransactionResponse:
+      type: object
+      required: 
+        - data
+      properties:
+        data:   
+          $ref: "#/components/schemas/TransactionItem"
     # Error
     ErrorResponse:
       type: object
