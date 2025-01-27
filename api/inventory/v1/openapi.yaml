@@ -363,7 +363,7 @@ components:
     ErrorSource:
       type: object
       required:
-        - type
+        - pointer
       properties:
         pointer:
           type: string
