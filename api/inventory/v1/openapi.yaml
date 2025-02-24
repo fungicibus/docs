@@ -104,25 +104,25 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
 
-  /transactions:
+  /movements:
     post:
       tags:
-        - transactions
-      summary: Create transaction
-      operationId: CreateTransaction
+        - movements
+      summary: Create movement
+      operationId: CreateMovement
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CreateTransactionRequest"
+              $ref: "#/components/schemas/CreateMovementRequest"
       responses:
         "201":
-          description: Transaction created successfully
+          description: Movement created successfully
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CreateTransactionResponse"
+                $ref: "#/components/schemas/CreateMovementResponse"
         "400":
           description: Request error
           content:
@@ -246,14 +246,14 @@ components:
         data:
           $ref: "#/components/schemas/CommodityItem"
 
-    # Transactions
-    TransactionType:
+    # Movements
+    MovementType:
       type: string
       enum:
         - sale
         - supply
       example: "supply"
-    TransactionItem:
+    MovementItem:
       type: object
       required:
         - id
@@ -274,20 +274,20 @@ components:
           description: Number representing quantity change, positive or negative
           example: 5
         type:
-          $ref: "#/components/schemas/TransactionType"
+          $ref: "#/components/schemas/MovementType"
         createdAt:
           type: string
-          description: Timestamp of the occurrence of the transaction in RFC3339 format
+          description: Timestamp of the occurrence of the movement in RFC3339 format
           example: 2025-01-02T15:04:05+07:00
         note:
           type: string
-          description: Optional note about the transaction
+          description: Optional note about the movement
           example: "Restock from supplier ABC"
         savedAt:
           type: string
-          description: Timestamp of saving the transaction to storage in RFC3339 format
+          description: Timestamp of saving the movement to storage in RFC3339 format
           example: 2025-01-02T15:04:05+07:00
-    CreateTransactionItem:
+    CreateMovementItem:
       type: object
       required:
         - commodityID
@@ -303,29 +303,29 @@ components:
           description: Number representing quantity change, positive or negative
           example: 5
         type:
-          $ref: "#/components/schemas/TransactionType"
+          $ref: "#/components/schemas/MovementType"
         createdAt:
           type: string
-          description: Timestamp of the occurrence of the transaction in RFC3339 format
+          description: Timestamp of the occurrence of the movement in RFC3339 format
           example: 2025-01-02T15:04:05+07:00
         note:
           type: string
-          description: Optional note about the transaction
+          description: Optional note about the movement
           example: "Restock from supplier ABC"
-    CreateTransactionRequest:
+    CreateMovementRequest:
       type: object
       required:
         - data
       properties:
         data:
-          $ref: "#/components/schemas/CreateTransactionItem"
-    CreateTransactionResponse:
+          $ref: "#/components/schemas/CreateMovementItem"
+    CreateMovementResponse:
       type: object
       required:
         - data
       properties:
         data:
-          $ref: "#/components/schemas/TransactionItem"
+          $ref: "#/components/schemas/MovementItem"
     # Error
     ErrorResponse:
       type: object
